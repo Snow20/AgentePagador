@@ -1,0 +1,30 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Agent.Core.Entities;
+
+namespace Agent.Core.Interfaces
+{
+    public interface IInvoiceRepository
+    {
+        Task<bool> IsDuplicateAsync(Guid vendorId, decimal amount, string serviceMonth);
+        Task SaveRawAsync(RawInvoice invoice);
+        Task UpdateInvoiceResultAsync(Guid id, string status, string color, string explanation);
+        Task<IEnumerable<RawInvoice>> GetAllAsync();
+    }
+
+    public interface IBudgetRepository
+    {
+        Task<decimal> GetBalanceAsync(int month);
+    }
+
+    public interface IVendorRepository
+    {
+        Task<Vendor> GetByIdAsync(Guid id);
+    }
+
+    public interface IMessagePublisher
+    {
+        Task PublishAsync(string routingKey, object message);
+    }
+}

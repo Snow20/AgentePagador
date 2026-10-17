@@ -1,0 +1,15 @@
+/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Infrastructure/bin/Debug/net10.0/Agent.Infrastructure.deps.json
+/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Infrastructure/bin/Debug/net10.0/Agent.Infrastructure.dll
+/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Infrastructure/bin/Debug/net10.0/Agent.Infrastructure.pdb
+/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Infrastructure/obj/Debug/net10.0/Agent.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Infrastructure/obj/Debug/net10.0/Agent.Infrastructure.AssemblyInfoInputs.cache
+/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Infrastructure/obj/Debug/net10.0/Agent.Infrastructure.AssemblyInfo.cs
+/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Infrastructure/obj/Debug/net10.0/Agent.Infrastructure.csproj.CoreCompileInputs.cache
+/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Infrastructure/obj/Debug/net10.0/Agent.Infrastructure.dll
+/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Infrastructure/obj/Debug/net10.0/refint/Agent.Infrastructure.dll
+/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Infrastructure/obj/Debug/net10.0/Agent.Infrastructure.pdb
+/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Infrastructure/obj/Debug/net10.0/ref/Agent.Infrastructure.dll
+/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Infrastructure/obj/Debug/net10.0/Agent.Infrastructure.csproj.AssemblyReference.cache
+/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Infrastructure/bin/Debug/net10.0/Agent.Core.dll
+/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Infrastructure/bin/Debug/net10.0/Agent.Core.pdb
+/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Infrastructure/obj/Debug/net10.0/Agent.In.982321FE.Up2Date

@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: agent_db
+    environment:
+      POSTGRES_USER: agent_admin
+      POSTGRES_PASSWORD: SecretPassword123!
+      POSTGRES_DB: AgentDb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: agent_mq
+    environment:
+      RABBITMQ_DEFAULT_USER: agent_mq
+      RABBITMQ_DEFAULT_PASS: SecretMq123!
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+volumes:
+  postgres_data:
+  rabbitmq_data:

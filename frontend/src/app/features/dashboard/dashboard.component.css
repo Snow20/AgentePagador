@@ -1,0 +1,50 @@
+.dashboard-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.btn-refresh {
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.table th, .table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f4f6f8;
+}
+
+.badge {
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  font-weight: bold;
+  color: #000;
+  display: inline-block;
+  min-width: 80px;
+  text-align: center;
+}
+
+.bg-green { background-color: #28a745; color: white; }
+.bg-yellow { background-color: #ffc107; }
+.bg-red { background-color: #dc3545; color: white; }
+.bg-gray { background-color: #6c757d; color: white; }

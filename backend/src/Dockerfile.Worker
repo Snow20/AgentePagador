@@ -1,0 +1,21 @@
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /src
+
+COPY src/Agent.Worker/Agent.Worker.csproj Agent.Worker/
+COPY src/Agent.Core/Agent.Core.csproj Agent.Core/
+COPY src/Agent.Infrastructure/Agent.Infrastructure.csproj Agent.Infrastructure/
+
+RUN dotnet restore Agent.Worker/Agent.Worker.csproj
+
+COPY src/Agent.Worker/ Agent.Worker/
+COPY src/Agent.Core/ Agent.Core/
+COPY src/Agent.Infrastructure/ Agent.Infrastructure/
+
+WORKDIR /src/Agent.Worker
+RUN dotnet publish -c Release -o /app/publish
+
+FROM mcr.microsoft.com/dotnet/runtime:10.0 AS runtime
+WORKDIR /app
+COPY --from=build /app/publish .
+
+ENTRYPOINT ["dotnet", "Agent.Worker.dll"]

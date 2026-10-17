@@ -1,0 +1,33 @@
+<div class="dashboard-container">
+  <h2>Panel de Resultados</h2>
+  <button (click)="loadDashboard()" class="btn-refresh">Actualizar Resultados</button>
+
+  <table class="table" *ngIf="invoices.length > 0; else noData">
+    <thead>
+      <tr>
+        <th>Archivo</th>
+        <th>Estado</th>
+        <th>Semáforo</th>
+        <th>Explicación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let inv of invoices">
+        <td>{{ inv.fileName }}</td>
+        <td>{{ inv.status }}</td>
+        <td>
+          <span class="badge" [ngClass]="{
+            'bg-green': inv.color === 'Verde',
+            'bg-yellow': inv.color === 'Amarillo',
+            'bg-red': inv.color === 'Rojo',
+            'bg-gray': inv.color === 'None'
+          }">{{ inv.color }}</span>
+        </td>
+        <td>{{ inv.explanation }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <ng-template #noData>
+    <p>No hay facturas registradas en la base de datos.</p>
+  </ng-template>
+</div>

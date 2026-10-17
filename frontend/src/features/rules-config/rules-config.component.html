@@ -1,0 +1,31 @@
+<div class="rules-container">
+  <h2>Configuración de Reglas de Pago</h2>
+  
+  <form [formGroup]="rulesForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="paymentLimit">Límite por Pago (Global USD):</label>
+      <input type="number" id="paymentLimit" formControlName="paymentLimit" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="periodLimit">Límite por Periodo (Presupuesto Mensual USD):</label>
+      <input type="number" id="periodLimit" formControlName="periodLimit" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="humanApprovalThreshold">Umbral de Aprobación Humana (Escalar a Gerencia):</label>
+      <input type="number" id="humanApprovalThreshold" formControlName="humanApprovalThreshold" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="allowedCurrencies">Monedas Permitidas:</label>
+      <input type="text" id="allowedCurrencies" formControlName="allowedCurrencies" class="form-control" readonly>
+    </div>
+
+    <button type="submit" [disabled]="rulesForm.invalid" class="btn-submit">Guardar Reglas</button>
+  </form>
+
+  <div *ngIf="saveStatus" class="status-message">
+    {{ saveStatus }}
+  </div>
+</div>
