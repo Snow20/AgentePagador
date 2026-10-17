@@ -10,6 +10,8 @@ using System;
 using Agent.Core.Interfaces;
 using Agent.Infrastructure.Data;
 using Agent.Infrastructure.Repositories;
+using Agent.Api;
+using Agent.Core; // Añade .Services o la ruta exacta si tu clase está en una subcarpeta
 
 var builder = WebApplication.CreateBuilder(args);
 
