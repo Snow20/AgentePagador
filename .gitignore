@@ -1,0 +1,18 @@
+# .NET Core / C#
+[Bb]in/
+[Oo]bj/
+*.user
+appsettings.Development.json
+
+# Angular / Node
+node_modules/
+dist/
+.angular/
+coverage/
+
+# Entornos, IDEs y SO
+.vs/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
