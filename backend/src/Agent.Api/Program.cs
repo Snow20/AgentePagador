@@ -11,7 +11,8 @@ using Agent.Core.Interfaces;
 using Agent.Infrastructure.Data;
 using Agent.Infrastructure.Repositories;
 using Agent.Api;
-using Agent.Core; // Añade .Services o la ruta exacta si tu clase está en una subcarpeta
+using Agent.Core; 
+using Agent.Core.Services; // ¡ESTE ES EL NAMESPACE CORRECTO PARA InvoiceEvaluationEngine!
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,7 +51,8 @@ builder.Services.AddScoped<IMessagePublisher>(sp => new RabbitMqPublisher(mqHost
 builder.Services.AddScoped<IBudgetRepository, BudgetRepository>();
 builder.Services.AddScoped<IVendorRepository, VendorRepository>();
 builder.Services.AddScoped<InvoiceEvaluationEngine>();
-// 2. Inyectar el Worker integrado
+
+// Inyectar el Worker integrado
 builder.Services.AddHostedService<Worker>();
 
 // Integración de OpenTelemetry a Dynatrace
