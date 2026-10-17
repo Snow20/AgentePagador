@@ -45,6 +45,11 @@ var mqPass = Environment.GetEnvironmentVariable("MQ_PASS") ?? "SecretMq123!";
 // Inyección de dependencias de Infraestructura
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 builder.Services.AddScoped<IMessagePublisher>(sp => new RabbitMqPublisher(mqHost, mqUser, mqPass));
+builder.Services.AddScoped<IBudgetRepository, BudgetRepository>();
+builder.Services.AddScoped<IVendorRepository, VendorRepository>();
+builder.Services.AddScoped<InvoiceEvaluationEngine>();
+// 2. Inyectar el Worker integrado
+builder.Services.AddHostedService<Worker>();
 
 // Integración de OpenTelemetry a Dynatrace
 var dynatraceEndpoint = builder.Configuration["Dynatrace:OtlpEndpoint"] ?? "http://localhost:4317";
