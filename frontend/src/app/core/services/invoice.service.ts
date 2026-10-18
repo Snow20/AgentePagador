@@ -18,6 +18,6 @@ export class InvoiceService {
   }
 
   getDashboard(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/dashboard`);
+    return this.http.get<any[]>(this.apiUrl);
   }
 }

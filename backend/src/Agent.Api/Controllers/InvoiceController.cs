@@ -30,6 +30,13 @@ namespace Agent.Api.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetInvoices()
+        {
+            var invoices = await _context.RawInvoices.ToListAsync();
+            return Ok(invoices);
+        }
+
         [HttpPost("upload")]
         public async Task<IActionResult> UploadInvoice([FromForm] UploadDto request)
         {
