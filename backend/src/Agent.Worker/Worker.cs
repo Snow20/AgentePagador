@@ -33,14 +33,12 @@ namespace Agent.Worker
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var vhost = Environment.GetEnvironmentVariable("MQ_VHOST") ?? "/";
-            
             var factory = new ConnectionFactory 
             { 
                 HostName = _mqHost, 
                 UserName = _mqUser, 
                 Password = _mqPass,
-                VirtualHost = vhost 
+                VirtualHost = Environment.GetEnvironmentVariable("MQ_VHOST") ?? _mqUser 
             };
             
             using var connection = await factory.CreateConnectionAsync();
