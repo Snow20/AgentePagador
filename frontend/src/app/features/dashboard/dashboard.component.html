@@ -1,14 +1,14 @@
 <div class="dashboard-container">
-  <h2>Panel de Resultados</h2>
-  <button (click)="loadDashboard()" class="btn-refresh">Actualizar Resultados</button>
+  <h2>{{ t.title }}</h2>
+  <button (click)="loadDashboard()" class="btn-refresh">{{ t.refreshBtn }}</button>
 
   <table class="table" *ngIf="invoices.length > 0; else noData">
     <thead>
       <tr>
-        <th>Archivo</th>
-        <th>Estado</th>
-        <th>Semáforo</th>
-        <th>Explicación</th>
+        <th>{{ t.colFile }}</th>
+        <th>{{ t.colStatus }}</th>
+        <th>{{ t.colTrafficLight }}</th>
+        <th>{{ t.colExplanation }}</th>
       </tr>
     </thead>
     <tbody>
@@ -28,6 +28,6 @@
     </tbody>
   </table>
   <ng-template #noData>
-    <p>No hay facturas registradas en la base de datos.</p>
+    <p>{{ t.noInvoices }}</p>
   </ng-template>
 </div>

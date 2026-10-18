@@ -18,9 +18,9 @@
 <main class="main-content">
   <p class="subtitle">{{ translations[currentLang].subtitle }}</p>
   
-  <app-rules-config></app-rules-config>
-  <app-invoice-upload></app-invoice-upload>
-  <app-dashboard></app-dashboard>
+  <app-rules-config [currentLang]="currentLang"></app-rules-config>
+  <app-invoice-upload [currentLang]="currentLang"></app-invoice-upload>
+  <app-dashboard [currentLang]="currentLang"></app-dashboard>
 </main>
 
 <!-- FOOTER -->

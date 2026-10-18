@@ -1,14 +1,14 @@
 <div class="upload-container">
-  <h2>Ingesta de Facturas</h2>
-  <p>Sube la factura (PDF o Imagen) para que el Agente la procese y evalúe las reglas.</p>
+  <h2>{{ t.title }}</h2>
+  <p>{{ t.desc }}</p>
 
   <div class="file-input-group">
     <input type="file" (change)="onFileSelected($event)" accept=".pdf,image/*" class="file-control" id="invoiceFile">
   </div>
 
-  <button (click)="onUpload()" [disabled]="!selectedFile" class="btn-upload">Procesar Factura</button>
+  <button (click)="onUpload()" [disabled]="!selectedFile" class="btn-upload">{{ t.processBtn }}</button>
 
-  <div *ngIf="uploadStatus" class="status-box" [ngClass]="{'error': uploadStatus.includes('Error')}">
+  <div *ngIf="uploadStatus" class="status-box" [ngClass]="{'error': isError}">
     {{ uploadStatus }}
   </div>
 </div>
