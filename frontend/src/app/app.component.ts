@@ -45,10 +45,7 @@ export class AppComponent implements OnInit {
       processing: 'Processing...'
     }
   };
-  get t() {
-    return this.translations[this.currentLang];
-  }
-
+  
   ngOnInit() {
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       this.toggleTheme(true);
