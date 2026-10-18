@@ -187,7 +187,7 @@ namespace Agent.Worker
 
             var requestBody = new
             {
-                model = "llama-3.1-8b-instant",
+                model = "llama3-8b-8192",
                 messages = new[]
                 {
                     new { role = "system", content = "Extrae el nombre del proveedor y el monto total a pagar de esta factura. Responde ÚNICAMENTE con un objeto JSON estricto con este formato exacto: {\"VendorName\": \"Nombre del Proveedor\", \"Amount\": 0.00}. No incluyas explicaciones, etiquetas markdown, ni texto adicional." },
