@@ -9,9 +9,13 @@ namespace Agent.Infrastructure.Repositories
     {
         public Task<Vendor> GetByIdAsync(Guid id)
         {
-            // Retorna null para cualquier Guid no registrado explícitamente, 
-            // forzando al InvoiceEvaluationEngine a clasificarlo como proveedor ilegal/desconocido.
-            return Task.FromResult<Vendor>(null);
+            // Simula un proveedor autorizado en el sistema
+            return Task.FromResult(new Vendor 
+            { 
+                Id = id, 
+                IsAllowed = true, 
+                RegisteredIban = "ES9121000418401234567891" 
+            });
         }
     }
 }
