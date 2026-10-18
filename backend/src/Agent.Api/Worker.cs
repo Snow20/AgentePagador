@@ -37,7 +37,8 @@ namespace Agent.Api
             { 
                 HostName = _mqHost, 
                 UserName = _mqUser, 
-                Password = _mqPass 
+                Password = _mqPass,
+                VirtualHost = _mqUser
             };
             
             using var connection = await factory.CreateConnectionAsync();
