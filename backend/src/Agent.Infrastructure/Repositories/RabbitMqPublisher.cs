@@ -22,12 +22,12 @@ namespace Agent.Infrastructure.Repositories
         public async Task PublishAsync(string routingKey, object message)
         {
             var factory = new ConnectionFactory()
-    {
-        HostName = mqHost,
-        UserName = mqUser,
-        Password = mqPass,
-        VirtualHost = mqUser 
-        };
+            {   
+                HostName = _hostname,
+                UserName = _username,
+                Password = _password,
+                VirtualHost = _username 
+            };
             
             using var connection = await factory.CreateConnectionAsync();
             using var channel = await connection.CreateChannelAsync();

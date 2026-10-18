@@ -9,3 +9,15 @@
 /home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Core/obj/Debug/net10.0/refint/Agent.Core.dll
 /home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Core/obj/Debug/net10.0/Agent.Core.pdb
 /home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Core/obj/Debug/net10.0/ref/Agent.Core.dll
+/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Core/bin/Debug/net10.0/Agent.Core.deps.json
+/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Core/bin/Debug/net10.0/Agent.Core.dll
+/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Core/bin/Debug/net10.0/Agent.Core.pdb
+/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Core/obj/Debug/net10.0/Agent.Core.GeneratedMSBuildEditorConfig.editorconfig
+/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Core/obj/Debug/net10.0/Agent.Core.AssemblyInfoInputs.cache
+/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Core/obj/Debug/net10.0/Agent.Core.AssemblyInfo.cs
+/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Core/obj/Debug/net10.0/Agent.Core.csproj.CoreCompileInputs.cache
+/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Core/obj/Debug/net10.0/Agent.Core.sourcelink.json
+/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Core/obj/Debug/net10.0/Agent.Core.dll
+/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Core/obj/Debug/net10.0/refint/Agent.Core.dll
+/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Core/obj/Debug/net10.0/Agent.Core.pdb
+/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Core/obj/Debug/net10.0/ref/Agent.Core.dll

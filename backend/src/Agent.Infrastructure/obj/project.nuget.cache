@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "u6ZTTYStM3Q=",
+  "dgSpecHash": "m0nwCl+F2PI=",
   "success": true,
-  "projectFilePath": "/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Infrastructure/Agent.Infrastructure.csproj",
+  "projectFilePath": "/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Infrastructure/Agent.Infrastructure.csproj",
   "expectedPackageFiles": [
     "/home/carlosnieves/.nuget/packages/microsoft.entityframeworkcore/10.0.4/microsoft.entityframeworkcore.10.0.4.nupkg.sha512",
     "/home/carlosnieves/.nuget/packages/microsoft.entityframeworkcore.abstractions/10.0.4/microsoft.entityframeworkcore.abstractions.10.0.4.nupkg.sha512",

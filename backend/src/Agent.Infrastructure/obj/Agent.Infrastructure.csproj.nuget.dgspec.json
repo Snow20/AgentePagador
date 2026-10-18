@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Infrastructure/Agent.Infrastructure.csproj": {}
+    "/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Infrastructure/Agent.Infrastructure.csproj": {}
   },
   "projects": {
-    "/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Core/Agent.Core.csproj": {
+    "/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Core/Agent.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Core/Agent.Core.csproj",
+        "projectUniqueName": "/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Core/Agent.Core.csproj",
         "projectName": "Agent.Core",
-        "projectPath": "/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Core/Agent.Core.csproj",
+        "projectPath": "/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Core/Agent.Core.csproj",
         "packagesPath": "/home/carlosnieves/.nuget/packages/",
-        "outputPath": "/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Core/obj/",
+        "outputPath": "/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Core/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/carlosnieves/.nuget/NuGet/NuGet.Config"
@@ -337,14 +337,14 @@
         }
       }
     },
-    "/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Infrastructure/Agent.Infrastructure.csproj": {
+    "/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Infrastructure/Agent.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Infrastructure/Agent.Infrastructure.csproj",
+        "projectUniqueName": "/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Infrastructure/Agent.Infrastructure.csproj",
         "projectName": "Agent.Infrastructure",
-        "projectPath": "/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Infrastructure/Agent.Infrastructure.csproj",
+        "projectPath": "/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Infrastructure/Agent.Infrastructure.csproj",
         "packagesPath": "/home/carlosnieves/.nuget/packages/",
-        "outputPath": "/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Infrastructure/obj/",
+        "outputPath": "/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Infrastructure/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/carlosnieves/.nuget/NuGet/NuGet.Config"
@@ -359,8 +359,8 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Core/Agent.Core.csproj": {
-                "projectPath": "/home/carlosnieves/projects/Proyecto_AgentePagador - retoBlinka/backend/src/Agent.Core/Agent.Core.csproj"
+              "/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Core/Agent.Core.csproj": {
+                "projectPath": "/home/carlosnieves/projects/AgentePagador/backend/src/Agent.Core/Agent.Core.csproj"
               }
             }
           }
