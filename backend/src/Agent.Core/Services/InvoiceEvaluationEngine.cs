@@ -45,8 +45,9 @@ namespace Agent.Core.Services
                 var vendor = await _vendorRepository.GetByIdAsync(invoice.VendorId);
                 if (vendor == null || !vendor.IsAllowed)
                 {
-                    reasons.Add($"Escalada: {invoice.VendorName} no está en la lista permitida.");
-                    finalStatus = finalStatus == InvoiceStatus.Red ? InvoiceStatus.Red : InvoiceStatus.Yellow;
+                    // CORRECCIÓN: Clasificar como Rojo (Frenada) e Ilegal en lugar de Amarillo
+                    reasons.Add($"Frenada: ilegal, el proveedor {invoice.VendorName} no está autorizado o es desconocido.");
+                    finalStatus = InvoiceStatus.Red;
                 }
 
                 if (invoice.Amount > rules.HumanApprovalThreshold)
@@ -75,7 +76,7 @@ namespace Agent.Core.Services
             catch(Exception ex)
             {
                 reasons.Add($"Error interno de evaluación: {ex.Message}");
-                finalStatus = InvoiceStatus.Yellow; // Ante la duda o falla de red, escalar (HU-03).
+                finalStatus = InvoiceStatus.Yellow; 
             }
 
             return new EvaluationResult 
