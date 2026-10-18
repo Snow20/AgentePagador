@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -23,10 +24,10 @@ namespace Agent.Infrastructure.Repositories
         {
             var factory = new ConnectionFactory()
             {   
-                HostName = _host,
-                UserName = _user,
-                Password = _pass,
-                VirtualHost = Environment.GetEnvironmentVariable("MQ_VHOST") ?? _user
+                HostName = _hostname,
+                UserName = _username,
+                Password = _password,
+                VirtualHost = Environment.GetEnvironmentVariable("MQ_VHOST") ?? _username 
             };
             
             using var connection = await factory.CreateConnectionAsync();
