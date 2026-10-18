@@ -8,6 +8,10 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Net.Http.Headers;
+using UglyToad.PdfPig;
 using Agent.Core.Services;
 using Agent.Core.Entities;
 using Agent.Core.Interfaces;
@@ -21,6 +25,7 @@ namespace Agent.Worker
         private readonly string _mqHost;
         private readonly string _mqUser;
         private readonly string _mqPass;
+        private readonly string _aiApiKey;
 
         public Worker(ILogger<Worker> logger, IServiceScopeFactory scopeFactory)
         {
@@ -29,6 +34,7 @@ namespace Agent.Worker
             _mqHost = Environment.GetEnvironmentVariable("MQ_HOST") ?? "localhost";
             _mqUser = Environment.GetEnvironmentVariable("MQ_USER") ?? "agent_mq";
             _mqPass = Environment.GetEnvironmentVariable("MQ_PASS") ?? "SecretMq123!";
+            _aiApiKey = Environment.GetEnvironmentVariable("GROQ_API_KEY") ?? "";
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -65,17 +71,32 @@ namespace Agent.Worker
                     
                     _logger.LogInformation("Procesando factura ID: {InvoiceId}", invoiceId);
 
+                    string base64Pdf = string.Empty;
+                    if (payloadDoc.RootElement.TryGetProperty("FileBase64", out var base64Prop))
+                    {
+                        base64Pdf = base64Prop.GetString() ?? "";
+                    }
+
+                    if (string.IsNullOrEmpty(base64Pdf))
+                    {
+                        throw new Exception("El mensaje de RabbitMQ no contiene el PDF en Base64.");
+                    }
+
+                    // Extraer texto del PDF localmente
+                    byte[] pdfBytes = Convert.FromBase64String(base64Pdf);
+                    string extractedText = ExtractTextFromPdf(pdfBytes);
+
+                    if (string.IsNullOrWhiteSpace(extractedText))
+                    {
+                        throw new Exception("No se pudo extraer texto del PDF (documento escaneado o vacío).");
+                    }
+
+                    // Enviar texto a Groq
+                    var (extractedVendor, extractedAmount) = await AnalyzeTextWithGroqAsync(extractedText);
+
                     using var scope = _scopeFactory.CreateScope();
                     var engine = scope.ServiceProvider.GetRequiredService<InvoiceEvaluationEngine>();
                     var repository = scope.ServiceProvider.GetRequiredService<IInvoiceRepository>();
-
-                    // INTEGRACIÓN DE EXTRACCIÓN REAL: 
-                    // Aquí debes llamar a tu servicio OCR/LLM que lee el PDF.
-                    // Para tu prueba inmediata con la factura de Meridian Audit Group LLC, 
-                    // extrae el monto directamente del payload o pásalo dinámicamente.
-                    
-                    decimal extractedAmount = 7500m; // Reemplaza esto con la extracción de tu IA (ej. AI.Parse(pdf).Amount)
-                    string extractedVendor = "Meridian Audit Group LLC"; // Reemplaza con extracción real
 
                     var parsedInvoice = new ParsedInvoice 
                     {
@@ -87,7 +108,6 @@ namespace Agent.Worker
                         ServiceMonth = "2026-10"
                     };
 
-                    // El umbral se mantiene en 5000. Cualquier factura superior será escalada.
                     var rules = new SystemRules { HumanApprovalThreshold = 5000m };
 
                     var result = await engine.EvaluateInvoiceAsync(parsedInvoice, rules);
@@ -109,7 +129,7 @@ namespace Agent.Worker
 
                     await repository.UpdateInvoiceResultAsync(invoiceId, finalStatus, color, reasons, parsedInvoice.Amount, isDuplicate, isIllegal, needsReview);
 
-                    _logger.LogWarning("Evaluación Completada. Semáforo: {Color}. Explicación: {Reasons}", color, reasons);
+                    _logger.LogWarning("Evaluación Completada. Monto: {Amount}. Semáforo: {Color}. Explicación: {Reasons}", parsedInvoice.Amount, color, reasons);
                 }
                 catch(Exception ex)
                 {
@@ -137,6 +157,67 @@ namespace Agent.Worker
             {
                 await Task.Delay(1000, stoppingToken);
             }
+        }
+
+        private string ExtractTextFromPdf(byte[] pdfBytes)
+        {
+            var textBuilder = new StringBuilder();
+            using (var document = PdfDocument.Open(pdfBytes))
+            {
+                foreach (var page in document.GetPages())
+                {
+                    textBuilder.AppendLine(page.Text);
+                }
+            }
+            return textBuilder.ToString();
+        }
+
+        private async Task<(string Vendor, decimal Amount)> AnalyzeTextWithGroqAsync(string documentText)
+        {
+            if (string.IsNullOrEmpty(_aiApiKey))
+            {
+                _logger.LogWarning("Variable GROQ_API_KEY no encontrada.");
+                return ("Proveedor Desconocido", 9999m); 
+            }
+
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _aiApiKey);
+            
+            var url = "https://api.groq.com/openai/v1/chat/completions";
+
+            var requestBody = new
+            {
+                model = "llama-3.1-8b-instant",
+                messages = new[]
+                {
+                    new { role = "system", content = "Extrae el nombre del proveedor y el monto total a pagar de esta factura. Responde ÚNICAMENTE con un objeto JSON estricto con este formato exacto: {\"VendorName\": \"Nombre del Proveedor\", \"Amount\": 0.00}. No incluyas explicaciones, etiquetas markdown, ni texto adicional." },
+                    new { role = "user", content = documentText }
+                },
+                temperature = 0,
+                response_format = new { type = "json_object" }
+            };
+
+            var response = await client.PostAsJsonAsync(url, requestBody);
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorBody = await response.Content.ReadAsStringAsync();
+                throw new Exception($"La API de Groq falló: {response.StatusCode} - {errorBody}");
+            }
+
+            var responseJson = await response.Content.ReadAsStringAsync();
+            using var doc = JsonDocument.Parse(responseJson);
+            
+            var textResponse = doc.RootElement
+                .GetProperty("choices")[0]
+                .GetProperty("message")
+                .GetProperty("content").GetString() ?? "{}";
+
+            using var resultDoc = JsonDocument.Parse(textResponse);
+            string vendor = resultDoc.RootElement.GetProperty("VendorName").GetString() ?? "Desconocido";
+            decimal amount = resultDoc.RootElement.GetProperty("Amount").GetDecimal();
+
+            return (vendor, amount);
         }
     }
 }
