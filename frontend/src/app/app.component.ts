@@ -17,18 +17,37 @@ export class AppComponent implements OnInit {
   currentLang = 'ES';
   isDaniOpen = false;
 
-  translations: any = {
-    'ES': {
+  translations = {
+    ES: {
       title: 'Agente Pagador',
       subtitle: 'Automatización de Facturas con IA',
-      daniGreeting: '¡Hola! Soy IA Dani, tu asistente virtual. ¿En qué te puedo ayudar hoy?'
+      ingestTitle: 'Ingesta de Facturas',
+      ingestDesc: 'Sube la factura (PDF o Imagen) para que el Agente la procese y evalúe las reglas.',
+      processBtn: 'Procesar Factura',
+      resultsTitle: 'Panel de Resultados',
+      refreshBtn: 'Actualizar Resultados',
+      noInvoices: 'No hay facturas registradas en la base de datos.',
+      footer: '© Copyright hecho por Fenrirsoft 2026. Todos los derechos reservados.',
+      apiError: 'Error de conexión con el Agente API.',
+      processing: 'Procesando...'
     },
-    'EN': {
+    EN: {
       title: 'Paying Agent',
       subtitle: 'AI Invoice Automation',
-      daniGreeting: 'Hello! I am AI Dani, your virtual assistant. How can I help you today?'
+      ingestTitle: 'Invoice Ingestion',
+      ingestDesc: 'Upload the invoice (PDF or Image) for the Agent to process and evaluate the rules.',
+      processBtn: 'Process Invoice',
+      resultsTitle: 'Results Panel',
+      refreshBtn: 'Refresh Results',
+      noInvoices: 'No invoices registered in the database.',
+      footer: '© Copyright made by Fenrirsoft 2026. All rights reserved.',
+      apiError: 'API Agent connection error.',
+      processing: 'Processing...'
     }
   };
+  get t() {
+    return this.translations[this.currentLang];
+  }
 
   ngOnInit() {
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {

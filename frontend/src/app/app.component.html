@@ -1,61 +1,49 @@
-<!-- HEADER / NAVBAR -->
-<header class="navbar">
-  <div class="logo">
-    <span class="material-symbols-outlined icon-logo">receipt_long</span>
-    <h2>{{ translations[currentLang].title }}</h2>
+<header class="app-header">
+  <div class="logo-container">
+    <span class="material-symbols-outlined logo-icon">receipt_long</span>
+    <h1>{{ t.title }}</h1>
   </div>
-  
   <div class="controls">
-    <!-- Botón Cambio de Idioma -->
-    <button class="btn-icon" (click)="toggleLanguage()">
-      <span class="material-symbols-outlined">language</span>
-      <span class="lang-text">{{ currentLang }}</span>
+    <button class="lang-toggle" (click)="toggleLanguage()">
+      <span class="material-symbols-outlined">language</span> {{ currentLang }}
     </button>
-
-    <!-- Botón Tema Claro/Oscuro -->
-    <button class="btn-icon" (click)="toggleTheme()">
-      <span class="material-symbols-outlined">
-        {{ isDarkMode ? 'light_mode' : 'dark_mode' }}
-      </span>
-    </button>
+    <!-- Botón de modo oscuro eliminado -->
   </div>
 </header>
 
-<!-- CONTENIDO PRINCIPAL -->
 <main class="main-content">
-  <p class="subtitle">{{ translations[currentLang].subtitle }}</p>
-  
-  <!-- Aquí inyectamos directamente tus componentes standalone -->
-  <app-rules-config></app-rules-config>
-  <app-invoice-upload></app-invoice-upload>
-  <app-dashboard></app-dashboard>
+  <h2 class="page-subtitle">{{ t.subtitle }}</h2>
+
+  <!-- Sección de Ingesta -->
+  <section class="card ingest-card">
+    <h3>{{ t.ingestTitle }}</h3>
+    <p>{{ t.ingestDesc }}</p>
+    
+    <div class="file-upload-container">
+      <input type="file" (change)="onFileSelected($event)" accept=".pdf,image/*">
+    </div>
+
+    <button class="btn-primary" [disabled]="!selectedFile || isLoading" (click)="uploadInvoice()">
+      {{ isLoading ? t.processing : t.processBtn }}
+    </button>
+
+    <div *ngIf="apiError" class="error-banner">
+      {{ t.apiError }}
+    </div>
+  </section>
+
+  <!-- Panel de Resultados -->
+  <section class="card results-card">
+    <h3>{{ t.resultsTitle }}</h3>
+    <button class="btn-secondary" (click)="loadInvoices()">{{ t.refreshBtn }}</button>
+    
+    <!-- Mostrar si no hay facturas -->
+    <p class="empty-state" *ngIf="invoices.length === 0">{{ t.noInvoices }}</p>
+
+    <!-- Aquí va tu tabla de facturas (ngFor) -->
+  </section>
 </main>
 
-<!-- FOOTER -->
-<footer class="footer">
-  <p>&copy; Copyright hecho por Fenrirsoft 2026. Todos los derechos reservados.</p>
+<footer class="app-footer">
+  <p>{{ t.footer }}</p>
 </footer>
-
-<!-- WIDGET ASISTENTE IA DANI -->
-<div class="dani-widget">
-  <div class="dani-chatbox" [class.show]="isDaniOpen">
-    <div class="dani-header">
-      <span class="material-symbols-outlined">smart_toy</span>
-      <h4>IA Dani</h4>
-      <button class="close-btn" (click)="toggleDani()">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-    <div class="dani-body">
-      <p class="dani-message">{{ translations[currentLang].daniGreeting }}</p>
-    </div>
-    <div class="dani-input">
-      <input type="text" placeholder="Escribe tu mensaje...">
-      <button class="btn-blinka">Enviar</button>
-    </div>
-  </div>
-
-  <button class="dani-trigger" (click)="toggleDani()" [class.hidden]="isDaniOpen">
-    <span class="material-symbols-outlined">smart_toy</span>
-  </button>
-</div>
