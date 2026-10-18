@@ -19,12 +19,12 @@ export class AppComponent implements OnInit {
 
   translations: any = {
     'ES': {
-      title: 'Agente Pagador Blinka',
+      title: 'Agente Pagador',
       subtitle: 'Automatización de Facturas con IA',
       daniGreeting: '¡Hola! Soy IA Dani, tu asistente virtual. ¿En qué te puedo ayudar hoy?'
     },
     'EN': {
-      title: 'Blinka Paying Agent',
+      title: 'Paying Agent',
       subtitle: 'AI Invoice Automation',
       daniGreeting: 'Hello! I am AI Dani, your virtual assistant. How can I help you today?'
     }
