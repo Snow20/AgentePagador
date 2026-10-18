@@ -13,6 +13,7 @@ using Agent.Infrastructure.Repositories;
 using Agent.Api;
 using Agent.Core; 
 using Agent.Core.Services; 
+using Agent.Worker;
 
 var builder = WebApplication.CreateBuilder(args);
 

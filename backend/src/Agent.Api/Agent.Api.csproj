@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Agent.Core\Agent.Core.csproj" />
     <ProjectReference Include="..\Agent.Infrastructure\Agent.Infrastructure.csproj" />
+    <ProjectReference Include="..\Agent.Worker\Agent.Worker.csproj" />
   </ItemGroup>
 
 </Project>
