@@ -64,34 +64,17 @@ export class DashboardComponent implements OnInit {
   }
 
   private enforceClassificationRules(invoice: any): any {
-    const isDuplicate = invoice.isDuplicate || false;
-    const isIllegal = invoice.isIllegal || false;
-    const noBudget = invoice.amount > 10000; 
-    const requiresHuman = invoice.needsReview || invoice.amount > 8000; 
-
-    if (isDuplicate || isIllegal || noBudget) {
-      return {
-        ...invoice,
-        status: this.t.statusFrenada,
-        color: 'Rojo',
-        explanation: this.t.expFrenada
-      };
-    }
-
-    if (requiresHuman) {
-      return {
-        ...invoice,
-        status: this.t.statusEscalada,
-        color: 'Amarillo',
-        explanation: this.t.expEscalada
-      };
-    }
+    let translatedStatus = invoice.status;
+    
+    if (invoice.status === 'Frenada') translatedStatus = this.t.statusFrenada;
+    else if (invoice.status === 'Escalada') translatedStatus = this.t.statusEscalada;
+    else if (invoice.status === 'Pagada') translatedStatus = this.t.statusPagada;
 
     return {
       ...invoice,
-      status: this.t.statusPagada,
-      color: 'Verde',
-      explanation: this.t.expPagada
+      status: translatedStatus,
+      color: invoice.color,             
+      explanation: invoice.explanation  
     };
   }
 }
