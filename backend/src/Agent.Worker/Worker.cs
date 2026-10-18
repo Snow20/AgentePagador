@@ -82,16 +82,14 @@ namespace Agent.Worker
                         throw new Exception("El mensaje de RabbitMQ no contiene el PDF en Base64.");
                     }
 
-                    // Extraer texto del PDF localmente
                     byte[] pdfBytes = Convert.FromBase64String(base64Pdf);
                     string extractedText = ExtractTextFromPdf(pdfBytes);
 
                     if (string.IsNullOrWhiteSpace(extractedText))
                     {
-                        throw new Exception("No se pudo extraer texto del PDF (documento escaneado o vacío).");
+                        throw new Exception("No se pudo extraer texto del PDF.");
                     }
 
-                    // Enviar texto a Groq
                     var (extractedVendor, extractedAmount) = await AnalyzeTextWithGroqAsync(extractedText);
 
                     using var scope = _scopeFactory.CreateScope();
@@ -121,7 +119,7 @@ namespace Agent.Worker
                         _ => "Desconocido"
                     };
                     
-                    var finalStatus = result.Status == InvoiceStatus.Green ? "Pagada" : result.Status == InvoiceStatus.Yellow ? "Pendiente" : "Frenada";
+                    var finalStatus = result.Status == InvoiceStatus.Green ? "Pagada" : result.Status == InvoiceStatus.Yellow ? "Escalada" : "Frenada";
 
                     bool isDuplicate = reasons.Contains("duplicad", StringComparison.OrdinalIgnoreCase);
                     bool isIllegal = reasons.Contains("ilegal", StringComparison.OrdinalIgnoreCase);
@@ -190,7 +188,7 @@ namespace Agent.Worker
                 model = "openai/gpt-oss-20b",
                 messages = new[]
                 {
-                    new { role = "system", content = "Extrae el nombre del proveedor y el monto total a pagar de esta factura. Responde ÚNICAMENTE con un objeto JSON estricto con este formato exacto: {\"VendorName\": \"Nombre del Proveedor\", \"Amount\": 0.00}. No incluyas explicaciones, etiquetas markdown, ni texto adicional." },
+                    new { role = "system", content = "Extrae el nombre del proveedor y el monto a pagar. Responde ÚNICAMENTE con un JSON estricto: {\"VendorName\": \"Nombre\", \"Amount\": 0.00}. IMPORTANTE: El campo Amount debe ser numérico puro sin comas separadoras de miles (ejemplo: si el texto es 7,500.00, extrae 7500.00)." },
                     new { role = "user", content = documentText }
                 },
                 temperature = 0,
