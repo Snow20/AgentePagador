@@ -1,5 +1,7 @@
 # 🧾 Agente Pagador - Hackatone 2026
 
+url produccion: https://agentepagador.pages.dev/
+
 **Agente Pagador ** es una solución Full Stack de automatización impulsada por Inteligencia Artificial, diseñada para la ingesta, evaluación y gestión de facturas. Este proyecto fue desarrollado para el hackathon **HackRadar**.
 
 El sistema procesa facturas, evalúa reglas de negocio (ej. umbrales de aprobación humana, límites presupuestarios) y clasifica automáticamente los pagos utilizando un sistema de semáforos (Verde, Amarillo, Rojo).
