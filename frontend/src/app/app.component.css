@@ -177,7 +177,31 @@
   text-align: left;
   font-size: 0.9rem;
 }
+.dani-minimenu {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+  overflow-x: auto;
+  white-space: nowrap;
+}
 
+.dani-minimenu button {
+  background-color: #1a4f1a;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.dani-minimenu button:hover {
+  background-color: #2a6f2a;
+}
 /* RESPONSIVE */
 @media (max-width: 600px) {
   .navbar { flex-direction: column; gap: 1rem; }
