@@ -12,7 +12,7 @@ using Agent.Core.Services;
 using Agent.Core.Entities;
 using Agent.Core.Interfaces;
 
-namespace Agent.Api
+namespace Agent.Worker
 {
     public class Worker : BackgroundService
     {
@@ -37,8 +37,7 @@ namespace Agent.Api
             { 
                 HostName = _mqHost, 
                 UserName = _mqUser, 
-                Password = _mqPass,
-                VirtualHost = _mqUser
+                Password = _mqPass 
             };
             
             using var connection = await factory.CreateConnectionAsync();
@@ -93,7 +92,13 @@ namespace Agent.Api
                     };
                     var finalStatus = result.Status == InvoiceStatus.Green ? "Pagada" : result.Status == InvoiceStatus.Yellow ? "Pendiente" : "Frenada";
 
-                    await repository.UpdateInvoiceResultAsync(invoiceId, finalStatus, color, reasons);
+                    // Extracción de variables restrictivas
+                    bool isDuplicate = reasons.Contains("duplicad", StringComparison.OrdinalIgnoreCase);
+                    bool isIllegal = reasons.Contains("ilegal", StringComparison.OrdinalIgnoreCase);
+                    bool needsReview = result.Status == InvoiceStatus.Yellow || parsedInvoice.Amount > 8000m;
+
+                    // Enviar datos completos al repositorio
+                    await repository.UpdateInvoiceResultAsync(invoiceId, finalStatus, color, reasons, parsedInvoice.Amount, isDuplicate, isIllegal, needsReview);
 
                     _logger.LogWarning("Evaluación Completada. Semáforo: {Color}. Explicación: {Reasons}", color, reasons);
                 }
@@ -107,7 +112,8 @@ namespace Agent.Api
                         {
                             using var scope = _scopeFactory.CreateScope();
                             var repository = scope.ServiceProvider.GetRequiredService<IInvoiceRepository>();
-                            await repository.UpdateInvoiceResultAsync(invoiceId, "Error", "Amarillo", $"Fallo de sistema: {ex.Message}");
+                            // En caso de error crítico, frena el sistema por defecto enviando true a needsReview
+                            await repository.UpdateInvoiceResultAsync(invoiceId, "Error", "Amarillo", $"Fallo de sistema: {ex.Message}", 0m, false, false, true);
                         }
                         catch { /* Supresión para evitar bucles de error */ }
                     }

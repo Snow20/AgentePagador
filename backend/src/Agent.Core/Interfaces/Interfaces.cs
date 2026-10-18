@@ -9,7 +9,10 @@ namespace Agent.Core.Interfaces
     {
         Task<bool> IsDuplicateAsync(Guid vendorId, decimal amount, string serviceMonth);
         Task SaveRawAsync(RawInvoice invoice);
-        Task UpdateInvoiceResultAsync(Guid id, string status, string color, string explanation);
+        
+        // Firma actualizada con los nuevos parámetros
+        Task UpdateInvoiceResultAsync(Guid id, string status, string color, string explanation, decimal amount, bool isDuplicate, bool isIllegal, bool needsReview);
+        
         Task<IEnumerable<RawInvoice>> GetAllAsync();
     }
 

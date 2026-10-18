@@ -15,7 +15,7 @@ namespace Agent.Core.Entities
     }
 
     public class SystemRules
-    {
+    {   
         public decimal HumanApprovalThreshold { get; set; }
     }
 
@@ -26,6 +26,12 @@ namespace Agent.Core.Entities
         public string Status { get; set; } = string.Empty;
         public string Color { get; set; } = string.Empty;
         public string Explanation { get; set; } = string.Empty;
+
+        // Nuevas propiedades obligatorias para la evaluación jerárquica
+        public decimal Amount { get; set; }
+        public bool IsDuplicate { get; set; }
+        public bool IsIllegal { get; set; }
+        public bool NeedsReview { get; set; }
     }
 
     public class Vendor

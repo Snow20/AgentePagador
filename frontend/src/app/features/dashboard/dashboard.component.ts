@@ -21,7 +21,13 @@ export class DashboardComponent implements OnInit {
       colFile: 'Archivo',
       colStatus: 'Estado',
       colTrafficLight: 'Semáforo',
-      colExplanation: 'Explicación'
+      colExplanation: 'Explicación',
+      statusFrenada: 'Frenada',
+      statusEscalada: 'Escalada',
+      statusPagada: 'Pagada',
+      expFrenada: 'Frenar: Infracción crítica detectada (duplicada, límite excedido o ilegal).',
+      expEscalada: 'Escalar: Duda o regla que exige revisión por Finanzas, Legal o Gerencia.',
+      expPagada: 'Pagar: Cumple todas las reglas, saldo suficiente.'
     },
     EN: {
       title: 'Results Panel',
@@ -30,7 +36,13 @@ export class DashboardComponent implements OnInit {
       colFile: 'File',
       colStatus: 'Status',
       colTrafficLight: 'Traffic Light',
-      colExplanation: 'Explanation'
+      colExplanation: 'Explanation',
+      statusFrenada: 'Stopped',
+      statusEscalada: 'Escalated',
+      statusPagada: 'Paid',
+      expFrenada: 'Stop: Critical violation detected (duplicate, limit exceeded, or illegal).',
+      expEscalada: 'Escalate: Doubt or rule requiring review by Finance, Legal, or Management.',
+      expPagada: 'Pay: Meets all rules, sufficient balance.'
     }
   };
 
@@ -45,9 +57,41 @@ export class DashboardComponent implements OnInit {
   loadDashboard(): void {
     this.invoiceService.getDashboard().subscribe({
       next: (data) => {
-        this.invoices = data;
+        this.invoices = data.map((invoice: any) => this.enforceClassificationRules(invoice));
       },
       error: (err) => console.error('Error al cargar el dashboard:', err)
     });
+  }
+
+  private enforceClassificationRules(invoice: any): any {
+    const isDuplicate = invoice.isDuplicate || false;
+    const isIllegal = invoice.isIllegal || false;
+    const noBudget = invoice.amount > 10000; 
+    const requiresHuman = invoice.needsReview || invoice.amount > 8000; 
+
+    if (isDuplicate || isIllegal || noBudget) {
+      return {
+        ...invoice,
+        status: this.t.statusFrenada,
+        color: 'Rojo',
+        explanation: this.t.expFrenada
+      };
+    }
+
+    if (requiresHuman) {
+      return {
+        ...invoice,
+        status: this.t.statusEscalada,
+        color: 'Amarillo',
+        explanation: this.t.expEscalada
+      };
+    }
+
+    return {
+      ...invoice,
+      status: this.t.statusPagada,
+      color: 'Verde',
+      explanation: this.t.expPagada
+    };
   }
 }

@@ -28,7 +28,8 @@ namespace Agent.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateInvoiceResultAsync(Guid id, string status, string color, string explanation)
+        // Implementación actualizada con los nuevos parámetros
+        public async Task UpdateInvoiceResultAsync(Guid id, string status, string color, string explanation, decimal amount, bool isDuplicate, bool isIllegal, bool needsReview)
         {
             var invoice = await _context.RawInvoices.FindAsync(id);
             if (invoice != null)
@@ -36,6 +37,14 @@ namespace Agent.Infrastructure.Repositories
                 invoice.Status = status;
                 invoice.Color = color;
                 invoice.Explanation = explanation;
+                
+                // Asignación de las nuevas variables de negocio
+                invoice.Amount = amount;
+                invoice.IsDuplicate = isDuplicate;
+                invoice.IsIllegal = isIllegal;
+                invoice.NeedsReview = needsReview;
+
+                _context.RawInvoices.Update(invoice);
                 await _context.SaveChangesAsync();
             }
         }
