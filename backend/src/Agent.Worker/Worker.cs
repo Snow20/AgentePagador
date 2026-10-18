@@ -69,16 +69,25 @@ namespace Agent.Worker
                     var engine = scope.ServiceProvider.GetRequiredService<InvoiceEvaluationEngine>();
                     var repository = scope.ServiceProvider.GetRequiredService<IInvoiceRepository>();
 
+                    // INTEGRACIÓN DE EXTRACCIÓN REAL: 
+                    // Aquí debes llamar a tu servicio OCR/LLM que lee el PDF.
+                    // Para tu prueba inmediata con la factura de Meridian Audit Group LLC, 
+                    // extrae el monto directamente del payload o pásalo dinámicamente.
+                    
+                    decimal extractedAmount = 7500m; // Reemplaza esto con la extracción de tu IA (ej. AI.Parse(pdf).Amount)
+                    string extractedVendor = "Meridian Audit Group LLC"; // Reemplaza con extracción real
+
                     var parsedInvoice = new ParsedInvoice 
                     {
                         VendorId = Guid.NewGuid(),
-                        VendorName = "Tech Solutions LLC",
-                        Amount = 1500m,
+                        VendorName = extractedVendor,
+                        Amount = extractedAmount,
                         PaymentDate = DateTime.UtcNow,
                         DueDate = DateTime.UtcNow.AddDays(15),
                         ServiceMonth = "2026-10"
                     };
 
+                    // El umbral se mantiene en 5000. Cualquier factura superior será escalada.
                     var rules = new SystemRules { HumanApprovalThreshold = 5000m };
 
                     var result = await engine.EvaluateInvoiceAsync(parsedInvoice, rules);
@@ -91,11 +100,12 @@ namespace Agent.Worker
                         InvoiceStatus.Red => "Rojo",
                         _ => "Desconocido"
                     };
+                    
                     var finalStatus = result.Status == InvoiceStatus.Green ? "Pagada" : result.Status == InvoiceStatus.Yellow ? "Pendiente" : "Frenada";
 
                     bool isDuplicate = reasons.Contains("duplicad", StringComparison.OrdinalIgnoreCase);
                     bool isIllegal = reasons.Contains("ilegal", StringComparison.OrdinalIgnoreCase);
-                    bool needsReview = result.Status == InvoiceStatus.Yellow || parsedInvoice.Amount > 8000m;
+                    bool needsReview = result.Status == InvoiceStatus.Yellow || parsedInvoice.Amount > rules.HumanApprovalThreshold;
 
                     await repository.UpdateInvoiceResultAsync(invoiceId, finalStatus, color, reasons, parsedInvoice.Amount, isDuplicate, isIllegal, needsReview);
 
