@@ -1,49 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RulesConfigComponent } from './features/rules-config/rules-config.component';
 import { InvoiceUploadComponent } from './features/invoice-upload/invoice-upload.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
-// NOTA: Si usas router, debes importar RouterModule en su lugar. 
-// Aquí mantenemos tus imports standalone originales.
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RulesConfigComponent, InvoiceUploadComponent, DashboardComponent],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'] // <-- Añadido. Faltaba enlazar la hoja de estilos
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-  isDarkMode = false;
-  currentLang = 'ES';
+export class AppComponent {
+  currentLang: 'ES' | 'EN' = 'ES';
   isDaniOpen = false;
 
-  translations: any = {
+  translations: Record<'ES' | 'EN', any> = {
     'ES': {
       title: 'Agente Pagador',
       subtitle: 'Automatización de Facturas con IA',
-      daniGreeting: '¡Hola! Soy IA Dani, tu asistente virtual. ¿En qué te puedo ayudar hoy?'
+      daniGreeting: '¡Hola! Soy IA Dani, tu asistente virtual. ¿En qué te puedo ayudar hoy?',
+      daniPlaceholder: 'Escribe tu mensaje...',
+      daniSend: 'Enviar',
+      footer: '© Copyright hecho por Fenrirsoft 2026. Todos los derechos reservados.'
     },
     'EN': {
       title: 'Paying Agent',
       subtitle: 'AI Invoice Automation',
-      daniGreeting: 'Hello! I am AI Dani, your virtual assistant. How can I help you today?'
+      daniGreeting: 'Hello! I am AI Dani, your virtual assistant. How can I help you today?',
+      daniPlaceholder: 'Type your message...',
+      daniSend: 'Send',
+      footer: '© Copyright made by Fenrirsoft 2026. All rights reserved.'
     }
   };
-
-  ngOnInit() {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      this.toggleTheme(true);
-    }
-  }
-
-  toggleTheme(forceDark?: boolean) {
-    this.isDarkMode = forceDark !== undefined ? forceDark : !this.isDarkMode;
-    if (this.isDarkMode) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
-      document.documentElement.removeAttribute('data-theme');
-    }
-  }
 
   toggleLanguage() {
     this.currentLang = this.currentLang === 'ES' ? 'EN' : 'ES';
