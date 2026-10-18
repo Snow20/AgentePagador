@@ -89,7 +89,8 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AgentDbContext>();
-    db.Database.EnsureCreated();
+    // Forzar la aplicación de migraciones pendientes en producción
+    db.Database.Migrate();
 }
 
 app.Run();
