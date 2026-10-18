@@ -1,5 +1,5 @@
 # 📖 Manual de Usuario y Documentación Técnica
-**Agente Pagador Blinka**
+**Agente Pagador**
 
 Este documento está dividido en dos partes principales: una guía didáctica sobre cómo utilizar la plataforma y una documentación técnica detallada sobre cómo se construyó y desplegó la solución.
 

@@ -1,4 +1,4 @@
-# 🧾 Agente Pagador Blinka - HackRadar 2026
+# 🧾 Agente Pagador - Hackatone 2026
 
 **Agente Pagador Blinka** es una solución Full Stack de automatización impulsada por Inteligencia Artificial, diseñada para la ingesta, evaluación y gestión de facturas. Este proyecto fue desarrollado para el hackathon **HackRadar**.
 
