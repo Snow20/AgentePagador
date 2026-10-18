@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://agentepagadorblinka-ws.onrender.com/api'
+  apiUrl: 'https://agentepagador.onrender.com/api'
 };
