@@ -1,23 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { RulesConfigComponent } from './features/rules-config/rules-config.component';
-import { InvoiceUploadComponent } from './features/invoice-upload/invoice-upload.component';
-import { DashboardComponent } from './features/dashboard/dashboard.component';
-// NOTA: Si usas router, debes importar RouterModule en su lugar. 
-// Aquí mantenemos tus imports standalone originales.
+import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RulesConfigComponent, InvoiceUploadComponent, DashboardComponent],
+  imports: [CommonModule], // Obligatorio para usar *ngIf y *ngFor en el HTML
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'] // <-- Añadido. Faltaba enlazar la hoja de estilos
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  isDarkMode = false;
-  currentLang = 'ES';
-  isDaniOpen = false;
+  currentLang: 'ES' | 'EN' = 'ES';
 
-  translations = {
+  // Tipado estricto para evitar el error TS7053
+  translations: Record<'ES' | 'EN', any> = {
     ES: {
       title: 'Agente Pagador',
       subtitle: 'Automatización de Facturas con IA',
@@ -45,27 +42,64 @@ export class AppComponent implements OnInit {
       processing: 'Processing...'
     }
   };
-  
+
+  // Variables de estado restauradas
+  selectedFile: File | null = null;
+  isLoading = false;
+  apiError = false;
+  invoices: any[] = [];
+
+  constructor(private http: HttpClient) {}
+
   ngOnInit() {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      this.toggleTheme(true);
-    }
+    this.loadInvoices();
   }
 
-  toggleTheme(forceDark?: boolean) {
-    this.isDarkMode = forceDark !== undefined ? forceDark : !this.isDarkMode;
-    if (this.isDarkMode) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
-      document.documentElement.removeAttribute('data-theme');
-    }
+  get t() {
+    return this.translations[this.currentLang];
   }
 
   toggleLanguage() {
     this.currentLang = this.currentLang === 'ES' ? 'EN' : 'ES';
   }
 
-  toggleDani() {
-    this.isDaniOpen = !this.isDaniOpen;
+  // Funciones operativas restauradas
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0] || null;
+  }
+
+  uploadInvoice() {
+    if (!this.selectedFile) return;
+    this.isLoading = true;
+    this.apiError = false;
+
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
+
+    this.http.post(`${environment.apiUrl}/invoice`, formData).subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.selectedFile = null;
+        this.loadInvoices(); // Refresca la tabla automáticamente
+      },
+      error: (err) => {
+        console.error('Error subiendo factura:', err);
+        this.isLoading = false;
+        this.apiError = true;
+      }
+    });
+  }
+
+  loadInvoices() {
+    this.http.get<any[]>(`${environment.apiUrl}/invoice/dashboard`).subscribe({
+      next: (data) => {
+        this.invoices = data;
+        this.apiError = false;
+      },
+      error: (err) => {
+        console.error('Error cargando facturas:', err);
+        this.apiError = true;
+      }
+    });
   }
 }
