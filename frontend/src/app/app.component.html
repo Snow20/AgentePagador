@@ -1,6 +1,61 @@
-<main style="font-family: Arial, sans-serif; padding: 20px; background-color: #f4f6f8; min-height: 100vh;">
-  <h1 style="text-align: center; color: #333;">Agente Pagador (Reto Blinka)</h1>
+<!-- HEADER / NAVBAR -->
+<header class="navbar">
+  <div class="logo">
+    <span class="material-symbols-outlined icon-logo">receipt_long</span>
+    <h2>{{ translations[currentLang].title }}</h2>
+  </div>
+  
+  <div class="controls">
+    <!-- Botón Cambio de Idioma -->
+    <button class="btn-icon" (click)="toggleLanguage()">
+      <span class="material-symbols-outlined">language</span>
+      <span class="lang-text">{{ currentLang }}</span>
+    </button>
+
+    <!-- Botón Tema Claro/Oscuro -->
+    <button class="btn-icon" (click)="toggleTheme()">
+      <span class="material-symbols-outlined">
+        {{ isDarkMode ? 'light_mode' : 'dark_mode' }}
+      </span>
+    </button>
+  </div>
+</header>
+
+<!-- CONTENIDO PRINCIPAL -->
+<main class="main-content">
+  <p class="subtitle">{{ translations[currentLang].subtitle }}</p>
+  
+  <!-- Aquí inyectamos directamente tus componentes standalone -->
   <app-rules-config></app-rules-config>
   <app-invoice-upload></app-invoice-upload>
   <app-dashboard></app-dashboard>
 </main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>&copy; Copyright hecho por Fenrirsoft 2026. Todos los derechos reservados.</p>
+</footer>
+
+<!-- WIDGET ASISTENTE IA DANI -->
+<div class="dani-widget">
+  <div class="dani-chatbox" [class.show]="isDaniOpen">
+    <div class="dani-header">
+      <span class="material-symbols-outlined">smart_toy</span>
+      <h4>IA Dani</h4>
+      <button class="close-btn" (click)="toggleDani()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="dani-body">
+      <p class="dani-message">{{ translations[currentLang].daniGreeting }}</p>
+    </div>
+    <div class="dani-input">
+      <input type="text" placeholder="Escribe tu mensaje...">
+      <button class="btn-blinka">Enviar</button>
+    </div>
+  </div>
+
+  <button class="dani-trigger" (click)="toggleDani()" [class.hidden]="isDaniOpen">
+    <span class="material-symbols-outlined">smart_toy</span>
+  </button>
+</div>

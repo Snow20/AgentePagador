@@ -1,0 +1,157 @@
+/* NAVBAR */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--surface-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--blinka-green);
+}
+
+.icon-logo { font-size: 2rem; }
+
+.controls {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-icon {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 20px;
+  padding: 5px 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.btn-icon:hover { background-color: var(--border-color); }
+
+/* MAIN CONTENT */
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.subtitle {
+  text-align: center;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+}
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  padding: 1.5rem;
+  background-color: var(--surface-color);
+  border-top: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: auto;
+}
+
+/* WIDGET IA DANI */
+.dani-widget {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.dani-trigger {
+  background-color: var(--blinka-green);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+}
+.dani-trigger .material-symbols-outlined { font-size: 30px; }
+.dani-trigger:hover { transform: scale(1.1); }
+.dani-trigger.hidden { display: none; }
+
+.dani-chatbox {
+  display: none;
+  flex-direction: column;
+  width: 320px;
+  height: 450px;
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  overflow: hidden;
+}
+.dani-chatbox.show { display: flex; }
+
+.dani-header {
+  background-color: var(--blinka-green);
+  color: white;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.dani-header h4 { flex: 1; margin: 0; }
+.close-btn { background: none; border: none; color: white; cursor: pointer; }
+
+.dani-body {
+  flex: 1;
+  padding: 15px;
+  background-color: var(--surface-color);
+  overflow-y: auto;
+}
+.dani-message {
+  background-color: var(--bg-color);
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.dani-input {
+  display: flex;
+  padding: 10px;
+  gap: 10px;
+  background-color: var(--bg-color);
+  border-top: 1px solid var(--border-color);
+}
+.dani-input input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-family: inherit;
+  background-color: var(--surface-color);
+  color: var(--text-primary);
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .navbar { flex-direction: column; gap: 1rem; }
+  .dani-chatbox {
+    width: calc(100vw - 40px);
+    height: 400px;
+  }
+}

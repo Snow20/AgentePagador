@@ -1,1 +1,55 @@
-/* You can add global styles to this file, and also import other style files */
+/* PALETA DE COLORES BLINKA Y VARIABLES GLOBALES */
+:root {
+  --blinka-green: #0a4d2e; /* Verde oscuro principal */
+  --blinka-light: #14804c; /* Verde acento */
+  --bg-color: #ffffff;
+  --surface-color: #f5f7fa;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --border-color: #e0e0e0;
+}
+
+/* MODO OSCURO */
+[data-theme="dark"] {
+  --blinka-green: #1ed760; /* Verde más brillante para contraste en oscuro */
+  --blinka-light: #1db954;
+  --bg-color: #121212;
+  --surface-color: #1e1e1e;
+  --text-primary: #ffffff;
+  --text-secondary: #aaaaaa;
+  --border-color: #333333;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estilos de botones genéricos */
+.btn-blinka {
+  background-color: var(--blinka-green);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.btn-blinka:hover {
+  background-color: var(--blinka-light);
+  transform: translateY(-2px);
+}
