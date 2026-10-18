@@ -110,22 +110,41 @@ namespace Agent.Worker
 
                     var result = await engine.EvaluateInvoiceAsync(parsedInvoice, rules);
 
-                    var reasons = string.Join(" | ", result.Explanations);
+                    // CORRECCIÓN: Trasladar de forma directa la explicación de la regla activada sin alterar el texto.
+                    var reasons = result.Explanations.Count > 0 
+                        ? string.Join(" | ", result.Explanations) 
+                        : "Error: No se generó ninguna explicación durante la evaluación.";
+
+                    // CORRECCIÓN: Garantizar que el mapeo de color y estado concuerde exactamente con el Enum.
                     var color = result.Status switch 
                     {
                         InvoiceStatus.Green => "Verde",
                         InvoiceStatus.Yellow => "Amarillo",
                         InvoiceStatus.Red => "Rojo",
-                        _ => "Desconocido"
+                        _ => "None"
                     };
                     
-                    var finalStatus = result.Status == InvoiceStatus.Green ? "Pagada" : result.Status == InvoiceStatus.Yellow ? "Escalada" : "Frenada";
+                    var finalStatus = result.Status switch
+                    {
+                        InvoiceStatus.Green => "Pagada",
+                        InvoiceStatus.Yellow => "Escalada",
+                        InvoiceStatus.Red => "Frenada",
+                        _ => "Desconocido"
+                    };
 
                     bool isDuplicate = reasons.Contains("duplicad", StringComparison.OrdinalIgnoreCase);
                     bool isIllegal = reasons.Contains("ilegal", StringComparison.OrdinalIgnoreCase);
-                    bool needsReview = result.Status == InvoiceStatus.Yellow || parsedInvoice.Amount > rules.HumanApprovalThreshold;
+                    bool needsReview = result.Status == InvoiceStatus.Yellow;
 
-                    await repository.UpdateInvoiceResultAsync(invoiceId, finalStatus, color, reasons, parsedInvoice.Amount, isDuplicate, isIllegal, needsReview);
+                    await repository.UpdateInvoiceResultAsync(
+                        invoiceId, 
+                        finalStatus, 
+                        color, 
+                        reasons, 
+                        parsedInvoice.Amount, 
+                        isDuplicate, 
+                        isIllegal, 
+                        needsReview);
 
                     _logger.LogWarning("Evaluación Completada. Monto: {Amount}. Semáforo: {Color}. Explicación: {Reasons}", parsedInvoice.Amount, color, reasons);
                 }
