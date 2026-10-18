@@ -23,10 +23,10 @@ namespace Agent.Infrastructure.Repositories
         {
             var factory = new ConnectionFactory()
             {   
-                HostName = _hostname,
-                UserName = _username,
-                Password = _password,
-                VirtualHost = _username 
+                HostName = _host,
+                UserName = _user,
+                Password = _pass,
+                VirtualHost = Environment.GetEnvironmentVariable("MQ_VHOST") ?? _user
             };
             
             using var connection = await factory.CreateConnectionAsync();
