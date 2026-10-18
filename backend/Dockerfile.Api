@@ -11,6 +11,9 @@ COPY src/Agent.Api/ Agent.Api/
 COPY src/Agent.Core/ Agent.Core/
 COPY src/Agent.Infrastructure/ Agent.Infrastructure/
 
+COPY src/Agent.Worker/Agent.Worker.csproj Agent.Worker/
+COPY src/Agent.Worker/ Agent.Worker/
+
 WORKDIR /src/Agent.Api
 RUN dotnet publish -c Release -o /app/publish
 
