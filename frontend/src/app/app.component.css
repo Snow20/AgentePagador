@@ -144,7 +144,38 @@
   border-radius: 6px;
   font-family: inherit;
   background-color: var(--surface-color);
-  color: var(--text-primary);
+  color: va
+  r(--text-primary);
+}
+
+.dani-icon-img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+.trigger-img {
+  width: 32px;
+  height: 32px;
+}
+.msg-user {
+  background-color: #d1f4cc;
+  color: #0b3d0b;
+  padding: 8px 12px;
+  border-radius: 12px 12px 0 12px;
+  margin: 6px 0 6px auto;
+  max-width: 85%;
+  text-align: right;
+  font-size: 0.9rem;
+}
+.msg-dani {
+  background-color: #f1f1f1;
+  color: #333;
+  padding: 8px 12px;
+  border-radius: 12px 12px 12px 0;
+  margin: 6px auto 6px 0;
+  max-width: 85%;
+  text-align: left;
+  font-size: 0.9rem;
 }
 
 /* RESPONSIVE */

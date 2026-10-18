@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RulesConfigComponent } from './features/rules-config/rules-config.component';
 import { InvoiceUploadComponent } from './features/invoice-upload/invoice-upload.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
@@ -6,13 +7,14 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RulesConfigComponent, InvoiceUploadComponent, DashboardComponent],
+  imports: [CommonModule, RulesConfigComponent, InvoiceUploadComponent, DashboardComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   currentLang: 'ES' | 'EN' = 'ES';
   isDaniOpen = false;
+  daniMessages: { role: string, content: string }[] = [];
 
   translations: Record<'ES' | 'EN', any> = {
     'ES': {
@@ -33,11 +35,39 @@ export class AppComponent {
     }
   };
 
+  ngOnInit(): void {
+    this.daniMessages.push({ 
+      role: 'dani', 
+      content: this.translations[this.currentLang].daniGreeting || '¡Miau! Soy IA Dani. ¿En qué te puedo ayudar hoy?' 
+    });
+  }
+
   toggleLanguage() {
     this.currentLang = this.currentLang === 'ES' ? 'EN' : 'ES';
   }
 
   toggleDani() {
     this.isDaniOpen = !this.isDaniOpen;
+  }
+
+  sendDaniMessage(inputElement: HTMLInputElement): void {
+    const text = inputElement.value.trim();
+    if (!text) return;
+
+    this.daniMessages.push({ role: 'user', content: text });
+    inputElement.value = '';
+
+    setTimeout(() => {
+      let response = 'Miau. Mi directiva es auditar facturas. Sube un documento para que el motor C# lo evalúe.';
+      const query = text.toLowerCase();
+      
+      if (query.includes('rojo') || query.includes('ilegal')) {
+        response = 'Si el sistema marca rojo, el proveedor no figura en tu VendorRepository o superaste el límite presupuestario.';
+      } else if (query.includes('amarillo')) {
+        response = 'El estado amarillo exige escalamiento. Ocurre si el monto excede el umbral o la IA no logró extraer el texto con precisión.';
+      }
+      
+      this.daniMessages.push({ role: 'dani', content: response });
+    }, 600);
   }
 }

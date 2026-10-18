@@ -32,20 +32,28 @@
 <div class="dani-widget">
   <div class="dani-chatbox" [class.show]="isDaniOpen">
     <div class="dani-header">
-      <span class="material-symbols-outlined">smart_toy</span>
+      <!-- Referencia directa a tu icono de gato arcade -->
+      <img src="assets/dani-arcade-cat.png" alt="Dani" class="dani-icon-img">
       <h4>IA Dani</h4>
       <button class="close-btn" (click)="toggleDani()">
         <span class="material-symbols-outlined">close</span>
       </button>
     </div>
-    <div class="dani-body">
-      <p class="dani-message">{{ translations[currentLang].daniGreeting }}</p>
+    <div class="dani-body" #chatBody>
+      <div *ngFor="let msg of daniMessages" [ngClass]="msg.role === 'user' ? 'msg-user' : 'msg-dani'">
+        {{ msg.content }}
+      </div>
     </div>
     <div class="dani-input">
-      <input type="text" [placeholder]="translations[currentLang].daniPlaceholder">
-      <button class="btn-blinka">{{ translations[currentLang].daniSend }}</button>
+      <input type="text" #chatInput (keyup.enter)="sendDaniMessage(chatInput)" [placeholder]="translations[currentLang].daniPlaceholder">
+      <button class="btn-blinka" (click)="sendDaniMessage(chatInput)">{{ translations[currentLang].daniSend }}</button>
     </div>
   </div>
+
+  <button class="dani-trigger" (click)="toggleDani()" [class.hidden]="isDaniOpen">
+    <img src="assets/dani-arcade-cat.png" alt="Dani" class="dani-icon-img trigger-img">
+  </button>
+</div>
 
   <button class="dani-trigger" (click)="toggleDani()" [class.hidden]="isDaniOpen">
     <span class="material-symbols-outlined">smart_toy</span>
