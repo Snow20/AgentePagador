@@ -92,12 +92,10 @@ namespace Agent.Worker
                     };
                     var finalStatus = result.Status == InvoiceStatus.Green ? "Pagada" : result.Status == InvoiceStatus.Yellow ? "Pendiente" : "Frenada";
 
-                    // Extracción de variables restrictivas
                     bool isDuplicate = reasons.Contains("duplicad", StringComparison.OrdinalIgnoreCase);
                     bool isIllegal = reasons.Contains("ilegal", StringComparison.OrdinalIgnoreCase);
                     bool needsReview = result.Status == InvoiceStatus.Yellow || parsedInvoice.Amount > 8000m;
 
-                    // Enviar datos completos al repositorio
                     await repository.UpdateInvoiceResultAsync(invoiceId, finalStatus, color, reasons, parsedInvoice.Amount, isDuplicate, isIllegal, needsReview);
 
                     _logger.LogWarning("Evaluación Completada. Semáforo: {Color}. Explicación: {Reasons}", color, reasons);
@@ -112,10 +110,9 @@ namespace Agent.Worker
                         {
                             using var scope = _scopeFactory.CreateScope();
                             var repository = scope.ServiceProvider.GetRequiredService<IInvoiceRepository>();
-                            // En caso de error crítico, frena el sistema por defecto enviando true a needsReview
                             await repository.UpdateInvoiceResultAsync(invoiceId, "Error", "Amarillo", $"Fallo de sistema: {ex.Message}", 0m, false, false, true);
                         }
-                        catch { /* Supresión para evitar bucles de error */ }
+                        catch { }
                     }
                 }
             };
