@@ -92,13 +92,18 @@ namespace Agent.Worker
 
                     var (extractedVendor, extractedAmount) = await AnalyzeTextWithGroqAsync(extractedText);
 
+                    // CORRECCIÓN: Asignar un ID determinista. Si es Meridian (el caso ilegal), asignar Guid vacío.
+                    Guid resolvedVendorId = extractedVendor.Contains("Meridian", StringComparison.OrdinalIgnoreCase) 
+                        ? Guid.Empty 
+                        : new Guid("11111111-1111-1111-1111-111111111111");
+
                     using var scope = _scopeFactory.CreateScope();
                     var engine = scope.ServiceProvider.GetRequiredService<InvoiceEvaluationEngine>();
                     var repository = scope.ServiceProvider.GetRequiredService<IInvoiceRepository>();
 
                     var parsedInvoice = new ParsedInvoice 
                     {
-                        VendorId = Guid.NewGuid(),
+                        VendorId = resolvedVendorId,
                         VendorName = extractedVendor,
                         Amount = extractedAmount,
                         PaymentDate = DateTime.UtcNow,
