@@ -32,7 +32,6 @@
 <div class="dani-widget">
   <div class="dani-chatbox" [class.show]="isDaniOpen">
     <div class="dani-header">
-      <!-- Referencia directa a tu icono de gato arcade -->
       <img src="assets/dani-arcade-cat.png" alt="Dani" class="dani-icon-img">
       <h4>IA Dani</h4>
       <button class="close-btn" (click)="toggleDani()">
@@ -52,10 +51,5 @@
 
   <button class="dani-trigger" (click)="toggleDani()" [class.hidden]="isDaniOpen">
     <img src="assets/dani-arcade-cat.png" alt="Dani" class="dani-icon-img trigger-img">
-  </button>
-</div>
-
-  <button class="dani-trigger" (click)="toggleDani()" [class.hidden]="isDaniOpen">
-    <span class="material-symbols-outlined">smart_toy</span>
   </button>
 </div>
