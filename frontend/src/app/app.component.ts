@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RulesConfigComponent } from './features/rules-config/rules-config.component';
 import { InvoiceUploadComponent } from './features/invoice-upload/invoice-upload.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { DANI_AVATAR_BASE64 } from './dani-avatar'; // 1. IMPORTACIÓN AÑADIDA AQUÍ
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,8 @@ export class AppComponent implements OnInit {
   currentLang: 'ES' | 'EN' = 'ES';
   isDaniOpen = false;
   daniMessages: { role: string, content: string }[] = [];
+  
+  daniAvatarBase64 = DANI_AVATAR_BASE64; // 2. PROPIEDAD ASIGNADA AQUÍ
 
   translations: Record<'ES' | 'EN', any> = {
     'ES': {
