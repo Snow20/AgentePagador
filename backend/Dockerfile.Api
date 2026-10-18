@@ -4,14 +4,13 @@ WORKDIR /src
 COPY src/Agent.Api/Agent.Api.csproj Agent.Api/
 COPY src/Agent.Core/Agent.Core.csproj Agent.Core/
 COPY src/Agent.Infrastructure/Agent.Infrastructure.csproj Agent.Infrastructure/
+COPY src/Agent.Worker/Agent.Worker.csproj Agent.Worker/
 
 RUN dotnet restore Agent.Api/Agent.Api.csproj
 
 COPY src/Agent.Api/ Agent.Api/
 COPY src/Agent.Core/ Agent.Core/
 COPY src/Agent.Infrastructure/ Agent.Infrastructure/
-
-COPY src/Agent.Worker/Agent.Worker.csproj Agent.Worker/
 COPY src/Agent.Worker/ Agent.Worker/
 
 WORKDIR /src/Agent.Api
